@@ -1,0 +1,18 @@
+=== Violetron System Reference Guide ===
+
+Violetron is an experimental Retrieval-Augmented Generation (RAG) chatbot developed in June 2026. It is designed to demonstrate how custom documents can be indexed and queried locally using vector embeddings and large language models without hardcoding credentials.
+
+--- Core Architecture ---
+1. Backend: Python Flask serves as the micro-service engine. It manages file streams in memory, runs the text chunking pipeline, interacts with the Google Gemini API, and updates the local vector database.
+2. Vector Store: Meta's FAISS (Facebook AI Similarity Search) library is used to index and search vector spaces. The index runs locally in RAM, ensuring maximum speed and security.
+3. Embeddings: Violetron employs Google's "text-embedding-004" model, generating high-fidelity 768-dimensional dense vector embeddings for each document chunk.
+4. Language Model: The generative answering step is processed by "gemini-1.5-flash", a fast, highly optimized model that provides concise answers based solely on retrieved context.
+
+--- Chunking Strategy ---
+Violetron implements a sentence-based chunking algorithm to preserve semantic boundaries. It splits document text into sentences using regular expressions and groups them together until a target word count of 300 to 500 words is achieved. To prevent information loss at chunk boundaries, a one-sentence overlap is maintained between successive chunks.
+
+--- Interface & Styling ---
+The user interface is built on modern web styling principles:
+- Theme: Elegant deep violet and dark indigo background with glowing ambient orbs.
+- Design: Glassmorphism panels utilizing backdrop blurs (20px saturate 180%), semi-transparent white borders (rgba 255, 255, 255, 0.08), and drop shadows.
+- Features: Real-time file drag-and-drop uploads, secure password-masked API Key inputs, and a custom context source viewer that allows inspecting retrieved chunks and their mathematical distance scores.
