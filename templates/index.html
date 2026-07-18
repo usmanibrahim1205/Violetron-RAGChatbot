@@ -3,127 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Violetron - Glassmorphic Gemini RAG Chatbot</title>
-    <!-- Google Fonts -->
+    <title>Violetron - Professional RAG Chatbot</title>
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom Style -->
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <!-- Background Blur Orbs -->
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-
-    <div class="app-container">
-        <!-- Sidebar Configuration Panel -->
-        <aside class="sidebar glass-panel">
-            <div class="sidebar-header">
-
+    <div class="app-layout">
+        <!-- 1. LEFT SIDEBAR (Navigation & Status) -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
                 <h2>Violetron</h2>
             </div>
             
-            <p class="tagline">Gemini-Powered RAG Chatbot</p>
+            <button id="reset-chat-btn" class="new-chat-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                New Chat
+            </button>
 
-            <!-- API Key Configuration Section -->
-            <section class="config-section">
-                <h3>
-                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    Gemini API Key
-                </h3>
-                <div class="input-group">
-                    <div class="password-wrapper">
-                        <input type="password" id="api-key-input" placeholder="Enter Gemini API Key..." autocomplete="off">
-                        <button id="toggle-key-visibility" class="icon-btn" title="Toggle Visibility">
-                            <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                            <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                        </button>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="save-locally-checkbox" checked>
-                        <label for="save-locally-checkbox">Save locally for convenience</label>
-                    </div>
-                    <button id="save-key-btn" class="primary-btn">Validate & Save</button>
-                    <button id="clear-key-btn" class="danger-btn hidden">Clear Saved Key</button>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="chat-view">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span>Chat</span>
+                </button>
+                <button class="nav-item" data-view="kb-view">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                    <span>Knowledge Bases</span>
+                </button>
+                <button class="nav-item" data-view="documents-view">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>Uploaded Documents</span>
+                </button>
+                <button class="nav-item" data-view="settings-view">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-status-box">
+                <div class="status-header">
+                    <span id="header-status-dot" class="connection-status"></span>
+                    <span id="header-status-text" class="status-text">Checking status...</span>
                 </div>
-                <div id="key-status" class="status-indicator info">Key status checking...</div>
-            </section>
-
-            <!-- Document Upload Section -->
-            <section class="config-section">
-                <h3>
-                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    Documents
-                </h3>
-                <div class="upload-zone" id="drop-zone">
-                    <input type="file" id="file-input" accept=".txt,.pdf" style="display: none;">
-                    <div class="upload-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    </div>
-                    <p class="upload-text"><strong>Drag & drop file</strong> or <span class="highlight">browse</span></p>
-                    <p class="upload-limit">Supports PDF, TXT (Max 10MB)</p>
-                </div>
-                
-                <div id="upload-status" class="status-indicator"></div>
-
-                <!-- Database Info / Loaded Files -->
-                <div class="db-info-panel">
-                    <div class="db-stat">
-                        <span>Loaded Files:</span>
+                <div class="sidebar-quick-stats">
+                    <div class="stat-row">
+                        <span>Documents:</span>
                         <strong id="files-count">0</strong>
                     </div>
-                    <div class="db-stat">
-                        <span>Text Chunks:</span>
+                    <div class="stat-row">
+                        <span>Chunks:</span>
                         <strong id="chunks-count">0</strong>
                     </div>
-                    <button id="clear-db-btn" class="secondary-btn" disabled>
-                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-                        Clear Database
-                    </button>
                 </div>
-            </section>
-
-            <footer class="sidebar-footer">
-            </footer>
+            </div>
         </aside>
 
-        <!-- Main Chat Area -->
-        <main class="chat-container glass-panel">
-            <!-- Chat Header Removed -->
+        <!-- 2. CENTER PANEL (Swappable Views) -->
+        <main class="center-content">
+            <!-- VIEW A: CHAT VIEW -->
+            <section id="chat-view" class="view-panel active">
+                <div class="messages-window" id="messages-list">
+                    <!-- Dynamic chat messages -->
+                    <div class="empty-state" id="chat-empty-state">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <h3>Welcome to Violetron</h3>
+                        <p>Configure your Gemini API key, upload documents to build your database, and ask questions to retrieve contexts in real time.</p>
+                        <button class="primary-btn view-trigger-btn" data-target="settings-view">
+                            Configure API Key
+                        </button>
+                    </div>
+                </div>
 
-            <!-- Messages Window -->
-            <section class="messages-window" id="messages-list">
-                <!-- Messages will be dynamically rendered here -->
+                <div class="chat-input-area">
+                    <div class="chat-input-row">
+                        <div class="input-form">
+                            <textarea id="chat-input" placeholder="Ask a question about your document(s)..." rows="1" disabled></textarea>
+                            <button id="send-btn" class="send-btn" disabled title="Send message">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            </button>
+                        </div>
+                        <button id="toggle-sidebar-right" class="btn-icon-toggle" title="Toggle Sources Sidebar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+                        </button>
+                    </div>
+                    <div class="input-caution-text">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <span>Caution: Violetron generates responses restricted to uploaded documents only.</span>
+                    </div>
+                </div>
             </section>
 
-            <!-- Message Input Area -->
-            <footer class="chat-input-area">
-                <div class="input-form">
-                    <textarea id="chat-input" placeholder="Ask a question about your document(s)..." rows="1" disabled></textarea>
-                    <button id="send-btn" class="send-btn" disabled>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                    </button>
+            <!-- VIEW B: KNOWLEDGE BASES VIEW -->
+            <section id="kb-view" class="view-panel">
+                <header class="view-header">
+                    <div class="header-info">
+                        <h1>Knowledge Bases</h1>
+                        <p class="subtitle">Manage indexes and data stores for retrieval</p>
+                    </div>
+                </header>
+                <div class="view-body">
+                    <div class="kb-grid">
+                        <div class="kb-card">
+                            <div class="kb-card-header">
+                                <div class="kb-card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                                </div>
+                                <div class="kb-card-title-group">
+                                    <h3>Default Knowledge Base</h3>
+                                    <span class="badge success">Active</span>
+                                </div>
+                                <button class="icon-menu-btn" title="More options">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                </button>
+                            </div>
+                            <p class="kb-card-desc">The primary database index for text extraction and vector storage. Documents uploaded to the system populate this index.</p>
+                            <div class="kb-card-metrics">
+                                <div class="metric">
+                                    <span class="label">Documents</span>
+                                    <span class="val" id="kb-doc-count">0</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">Total Chunks</span>
+                                    <span class="val" id="kb-chunk-count">0</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">Status</span>
+                                    <span class="val text-success">Synchronized</span>
+                                </div>
+                            </div>
+                            <div class="kb-card-footer">
+                                <button class="secondary-btn view-trigger-btn" data-target="documents-view">Manage Documents</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- Input Footer Removed -->
-            </footer>
-        </main>
-    </div>
+            </section>
 
-    <!-- Source Inspect Modal (for RAG inspection) -->
-    <div id="sources-modal" class="modal-overlay hidden">
-        <div class="modal-content glass-panel">
-            <header class="modal-header">
-                <h2>Retrieved Context Sources</h2>
-                <button id="close-modal" class="icon-btn-secondary">
+            <!-- VIEW C: DOCUMENTS VIEW -->
+            <section id="documents-view" class="view-panel">
+                <header class="view-header">
+                    <div class="header-info">
+                        <h1>Uploaded Documents</h1>
+                        <p class="subtitle">Upload files and manage the embedded corpus</p>
+                    </div>
+                </header>
+                <div class="view-body document-manager">
+                    <!-- Dropzone -->
+                    <div class="upload-zone" id="drop-zone">
+                        <input type="file" id="file-input" accept=".txt,.pdf" style="display: none;">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </div>
+                        <p class="upload-text"><strong>Drag & drop file</strong> or <span class="highlight">browse</span> to upload</p>
+                        <p class="upload-limit">Supports PDF, TXT (Max 10MB)</p>
+                    </div>
+                    <div id="upload-status" class="status-indicator"></div>
+
+                    <!-- Documents Table -->
+                    <div class="table-container">
+                        <div class="table-header-row">
+                            <h3>Document Index</h3>
+                            <button id="clear-db-btn" class="danger-btn text-xs" disabled>
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                Clear Index
+                            </button>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Knowledge Base</th>
+                                        <th>Status</th>
+                                        <th>Size</th>
+                                        <th>Uploaded</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="documents-table-body">
+                                    <!-- Populated dynamically via JS -->
+                                    <tr class="empty-table-row">
+                                        <td colspan="6" class="text-center text-muted">No documents uploaded yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW D: SETTINGS VIEW -->
+            <section id="settings-view" class="view-panel">
+                <header class="view-header">
+                    <div class="header-info">
+                        <h1>Settings & Keys</h1>
+                        <p class="subtitle">Manage API keys and local environment variables</p>
+                    </div>
+                </header>
+                <div class="view-body settings-manager">
+                    <div class="settings-card">
+                        <h3>Gemini API Configuration</h3>
+                        <p class="settings-desc">Violetron uses Google's Gemini models for semantic embedding and retrieval answering. Enter a valid API key from Google AI Studio.</p>
+                        
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label for="api-key-input">Gemini API Key</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="api-key-input" placeholder="Enter Gemini API Key..." autocomplete="off">
+                                    <button id="toggle-key-visibility" class="icon-btn" title="Toggle Visibility">
+                                        <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="save-locally-checkbox" checked>
+                                    <label for="save-locally-checkbox">Save locally in .api_key for convenience</label>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button id="save-key-btn" class="primary-btn">Validate & Save Key</button>
+                                <button id="clear-key-btn" class="danger-btn hidden">Clear Saved Key</button>
+                            </div>
+                        </div>
+                        <div id="key-status" class="status-indicator info">Key status checking...</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 3. RIGHT PANEL (Collapsible Sources & Metadata) -->
+        <aside class="sidebar-right" id="right-sidebar">
+            <div class="sidebar-right-header">
+                <h2>RAG Context Inspector</h2>
+                <button id="close-sidebar-right" class="btn-icon-close" title="Close Panel">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
-            </header>
-            <div class="modal-body" id="sources-container">
-                <!-- Sources list will be dynamically rendered here -->
             </div>
-        </div>
+            <div class="sidebar-right-content" id="sources-container">
+                <div class="inspector-empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <p>Select a message source badge or submit a prompt to inspect retrieved context chunks here.</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Hidden Sources Modal (maintained for absolute fallback compatibility with any script relying on it, though we bypass it in UI) -->
+    <div id="sources-modal" class="modal-overlay hidden" style="display: none !important;">
+        <button id="close-modal" style="display: none;"></button>
     </div>
 
     <!-- Script Entry -->
