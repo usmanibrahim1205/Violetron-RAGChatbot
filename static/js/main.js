@@ -32,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleSidebarRightBtn = document.getElementById('toggle-sidebar-right');
     const closeSidebarRightBtn = document.getElementById('close-sidebar-right');
     const chatEmptyState = document.getElementById('chat-empty-state');
+    
+    // Project Showcase Modal Elements
+    const showcaseModal = document.getElementById('showcase-modal');
+    const closeShowcaseBtn = document.getElementById('close-showcase-btn');
 
     // State Variables
     let isKeyConfigured = false;
@@ -39,6 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize application state
     checkBackendStatus();
+
+    // Show showcase modal on load
+    if (showcaseModal) {
+        setTimeout(() => {
+            showcaseModal.classList.add('active');
+        }, 300);
+
+        if (closeShowcaseBtn) {
+            closeShowcaseBtn.addEventListener('click', () => {
+                showcaseModal.classList.remove('active');
+            });
+        }
+
+        // Close when clicking overlay backdrop
+        showcaseModal.addEventListener('click', (e) => {
+            if (e.target === showcaseModal) {
+                showcaseModal.classList.remove('active');
+            }
+        });
+    }
 
     // Tab Navigation Logic
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');

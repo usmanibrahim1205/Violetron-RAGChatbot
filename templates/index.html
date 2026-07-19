@@ -62,6 +62,11 @@
                     </div>
                 </div>
             </div>
+
+            <div class="sidebar-footer">
+                <p class="copyright">&copy; Usman Ibrahim. All rights reserved</p>
+                <p class="contact"><a href="mailto:muusman712@gmail.com">muusman712@gmail.com</a></p>
+            </div>
         </aside>
 
         <!-- 2. CENTER PANEL (Swappable Views) -->
@@ -263,6 +268,30 @@
     <!-- Hidden Sources Modal (maintained for absolute fallback compatibility with any script relying on it, though we bypass it in UI) -->
     <div id="sources-modal" class="modal-overlay hidden" style="display: none !important;">
         <button id="close-modal" style="display: none;"></button>
+    </div>
+
+    <!-- Project Showcase Disclaimer Modal -->
+    <div id="showcase-modal" class="showcase-modal-overlay">
+        <div class="showcase-modal-card">
+            <div class="showcase-modal-card-header">
+                <div class="showcase-modal-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                </div>
+                <h2>Project Showcase</h2>
+            </div>
+            <div class="showcase-modal-card-body">
+                <p>Welcome to <strong>Violetron</strong>! This application was developed as an interactive web portal to showcase professional RAG (Retrieval-Augmented Generation) chatbot engineering capabilities and is not a production-ready application..</p>
+                <p>For the best experience, it is recommended test this prototype with <strong>smaller files only</strong>, as it is not built for production-scale workloads.</p>
+                <p class="text-center"><strong>Kindly configure your own GEMINI API Key</strong></p>
+            </div>
+            <div class="showcase-modal-card-footer">
+                <button id="close-showcase-btn" class="primary-btn">Explore Showcase</button>
+            </div>
+        </div>
     </div>
 
     <!-- Script Entry -->
