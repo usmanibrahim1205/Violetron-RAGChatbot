@@ -79,8 +79,16 @@ body {
 .sidebar-brand {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     padding: 4px 8px;
+    width: 100%;
+}
+
+.brand-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .brand-logo {
@@ -104,6 +112,10 @@ body {
     font-weight: 700;
     letter-spacing: -0.2px;
     color: var(--text-primary);
+}
+
+.mobile-menu-toggle-btn {
+    display: none;
 }
 
 /* Sidebar action button */
@@ -1230,23 +1242,67 @@ body {
         border-bottom: 1px solid var(--border-color);
         height: auto;
         padding: 12px 16px;
-        gap: 10px;
+        gap: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+        z-index: 50;
     }
     
     .sidebar-brand {
+        display: flex;
         justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0;
+    }
+    
+    .mobile-menu-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: var(--text-primary);
+        padding: 6px;
+        border-radius: 6px;
+        transition: var(--transition-fast);
+    }
+    
+    .mobile-menu-toggle-btn:hover {
+        background-color: var(--light-purple);
+        color: var(--primary-purple);
+    }
+    
+    .mobile-menu-toggle-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .sidebar-menu-content {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        padding-top: 4px;
+        animation: menuFadeIn 200ms ease-out forwards;
+    }
+    
+    .sidebar.menu-open .sidebar-menu-content {
+        display: flex;
     }
     
     .sidebar-nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 6px;
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
         flex: none;
     }
     
     .new-chat-btn {
         width: 100%;
-        padding: 8px 12px;
+        padding: 10px 14px;
     }
     
     .sidebar-status-box {
@@ -1262,6 +1318,17 @@ body {
     
     .sidebar-right.open {
         right: 0;
+    }
+
+    @keyframes menuFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }
 

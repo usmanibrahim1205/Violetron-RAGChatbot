@@ -64,6 +64,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Mobile Menu Controls
+    const sidebarLeft = document.getElementById('sidebar-left');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const menuIcon = mobileMenuToggle?.querySelector('.menu-icon');
+    const closeIcon = mobileMenuToggle?.querySelector('.close-icon');
+
+    if (mobileMenuToggle && sidebarLeft) {
+        mobileMenuToggle.addEventListener('click', () => {
+            sidebarLeft.classList.toggle('menu-open');
+            if (sidebarLeft.classList.contains('menu-open')) {
+                menuIcon?.classList.add('hidden');
+                closeIcon?.classList.remove('hidden');
+            } else {
+                menuIcon?.classList.remove('hidden');
+                closeIcon?.classList.add('hidden');
+            }
+        });
+    }
+
+    function closeMobileMenu() {
+        if (sidebarLeft && sidebarLeft.classList.contains('menu-open')) {
+            sidebarLeft.classList.remove('menu-open');
+            menuIcon?.classList.remove('hidden');
+            closeIcon?.classList.add('hidden');
+        }
+    }
+
     // Tab Navigation Logic
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
     const viewPanels = document.querySelectorAll('.view-panel');
@@ -92,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetView = item.getAttribute('data-view');
             if (targetView) {
                 switchView(targetView);
+                closeMobileMenu(); // Auto close menu on mobile
             }
         });
     });
@@ -101,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetView = btn.getAttribute('data-target');
             if (targetView) {
                 switchView(targetView);
+                closeMobileMenu(); // Auto close menu on mobile
             }
         });
     });
