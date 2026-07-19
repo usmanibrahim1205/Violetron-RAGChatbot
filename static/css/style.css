@@ -76,6 +76,14 @@ body {
     gap: 16px;
 }
 
+.sidebar-menu-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 16px;
+}
+
+
 .sidebar-brand {
     display: flex;
     align-items: center;
@@ -1698,7 +1706,7 @@ body {
 
 /* Sidebar Footer & Copyright */
 .sidebar-footer {
-    margin-top: auto;
+    margin-top: 8px;
     padding-top: 16px;
     border-top: 1px solid var(--border-color);
     font-size: 11px;
@@ -1730,7 +1738,7 @@ body {
 /* Responsive Footer styling when sidebar items flow differently or are stacked */
 @media (max-width: 639px) {
     .sidebar-footer {
-        margin-top: auto;
+        margin-top: 8px;
         padding-top: 12px;
         display: flex;
         flex-direction: column;
