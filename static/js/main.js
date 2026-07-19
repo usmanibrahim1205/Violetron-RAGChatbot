@@ -438,11 +438,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok && !data.error) {
                 appendMessage('assistant', data.answer, data.sources);
-                // Auto show right sidebar and render sources
+                // Auto show right sidebar (desktop only) and render sources
                 if (data.sources && data.sources.length > 0) {
                     lastRetrievedSources = data.sources;
                     renderSourcesModal();
-                    if (rightSidebar) rightSidebar.classList.add('open');
+                    const isDesktop = window.innerWidth >= 1024;
+                    if (isDesktop && rightSidebar) rightSidebar.classList.add('open');
                 }
             } else {
                 appendMessage('assistant', `⚠️ Error: ${data.error || 'Failed to retrieve response.'}`);
@@ -669,6 +670,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleModal() {
         if (rightSidebar) {
             rightSidebar.classList.add('open');
+            const isOverlay = window.innerWidth < 1024;
+            if (isOverlay && sidebarOverlay) {
+                sidebarOverlay.classList.add('active');
+            }
         }
     }
 

@@ -1367,7 +1367,8 @@ body {
     }
     
     .sidebar-right.open {
-        right: 0;
+        position: fixed !important;
+        right: 0 !important;
     }
     
     .mobile-header {
@@ -1434,7 +1435,8 @@ body {
     }
     
     .sidebar-right.open {
-        right: 0;
+        position: fixed !important;
+        right: 0 !important;
     }
     
     .mobile-header {
